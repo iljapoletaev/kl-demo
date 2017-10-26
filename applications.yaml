@@ -1,0 +1,49 @@
+- charts:
+  - clusters:
+    - minikube
+    configuration:
+      values:
+        RBAC: true
+        exportGPU: true
+        persistence:
+          accessMode: ReadWriteOnce
+          enabled: true
+          size:
+            grafana: 10Gi
+            prometheus: 10Gi
+          storageClass: glusterfs
+        pushGateway:
+          enabled: true
+    name: grafana-prometheus
+    src: https://github.com/kuberlab-catalog/grafana-prometheus/
+    version: ^1.0.0
+  name: kuberlab
+- charts:
+  - clusters:
+    - minikube
+    configuration:
+      values:
+        image: kuberlab/styles-transfer-ui:latest
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        serviceType: ClusterIP
+        styles_mlapp: 21-kuberlab-demo
+        styles_model: styles-set-serving-train-12
+    name: styles-transfer-ui
+    src: https://github.com/kuberlab-catalog/styles-transfer-ui/
+    version: 1.0.0
+  name: styles-demo
+- charts:
+  - clusters:
+    - minikube
+    configuration:
+      values:
+        app: 21-kuberlab-demo
+        model: zappos-set-serving-standalone-8
+        port: 5000
+    name: zappos-ui
+    src: https://github.com/kuberlab-catalog/zappos-ui/
+    version: 1.0.0
+  name: zappos-ui
